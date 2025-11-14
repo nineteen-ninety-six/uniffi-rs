@@ -33,7 +33,7 @@ impl Root {
 
         let mut udl_to_load = vec![];
 
-        for meta in macro_metadata::extract_from_library(path)? {
+        for meta in all_metadata {
             match meta {
                 uniffi_meta::Metadata::UdlFile(udl) => {
                     udl_to_load.push((
@@ -98,7 +98,7 @@ impl Root {
         // start with a raw metadata list
         if let Some(docstring) = metadata_group.namespace_docstring {
             metadata_converter
-                .add_module_docstring(metadata_group.namespace.name.clone(), docstring);
+                .add_module_docstring(metadata_group.namespace.name.clone(), docstring)?;
         }
         if !library_mode {
             if let Some(path) = config_supplier.get_toml_path(&metadata_group.namespace.crate_name)
